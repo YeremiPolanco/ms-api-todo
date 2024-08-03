@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/todo")
@@ -36,6 +37,19 @@ public class TodoControlller {
         todoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Todo> update(@PathVariable int id, @RequestBody Todo todo) {
+        Todo todoToUpdate = todoService.getById(id);
+        if (todoToUpdate == null) {
+            return ResponseEntity.notFound().build();
+        }
+        todoToUpdate.setTitle(todo.getTitle());
+        todoToUpdate.setStatus(todo.getStatus());
+        Todo updatedTodo = todoService.save(todoToUpdate);
+        return ResponseEntity.ok(updatedTodo);
+    }
+
 
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Todo>> getByTitle(@PathVariable String title) {
