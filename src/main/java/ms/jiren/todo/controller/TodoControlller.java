@@ -40,14 +40,7 @@ public class TodoControlller {
 
     @PutMapping("/{id}")
     public ResponseEntity<Todo> update(@PathVariable int id, @RequestBody Todo todo) {
-        Todo todoToUpdate = todoService.getById(id);
-        if (todoToUpdate == null) {
-            return ResponseEntity.notFound().build();
-        }
-        todoToUpdate.setTitle(todo.getTitle());
-        todoToUpdate.setStatus(todo.getStatus());
-        Todo updatedTodo = todoService.save(todoToUpdate);
-        return ResponseEntity.ok(updatedTodo);
+        return ResponseEntity.ok(todoService.update(id, todo));
     }
 
 
