@@ -29,8 +29,10 @@ public class TodoControlller {
     @PostMapping
     public ResponseEntity<Todo> save(@RequestBody Todo todo) {
         Todo savedTodo = todoService.save(todo);
-        return ResponseEntity.created(URI.create("/api/todo/" + savedTodo.getId())).body(savedTodo);
+        URI location = URI.create("/api/todo/" + savedTodo.getId());
+        return ResponseEntity.created(location).body(savedTodo);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
